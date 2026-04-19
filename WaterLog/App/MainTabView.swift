@@ -40,6 +40,6 @@ struct MainTabView: View {
           Label("Settings", systemImage: "gearshape.fill")
         }
     }
-    .tint(Color(red: 0.08, green: 0.55, blue: 0.78))
+    .tint(WaterLogTheme.accent)
   }
 }

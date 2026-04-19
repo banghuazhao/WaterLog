@@ -40,7 +40,7 @@ struct EditDrinkLogSheet: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(alignment: .leading, spacing: 24) {
+                VStack(alignment: .leading, spacing: WaterLogTheme.contentStackSpacing) {
                     typeSection
                     volumeSection
                     timeSection
@@ -48,7 +48,10 @@ struct EditDrinkLogSheet: View {
                 }
                 .padding()
             }
-            .background(Color(.systemGroupedBackground))
+            .scrollContentBackground(.hidden)
+            .background {
+                WaterLogTheme.secondaryScreenBackground.ignoresSafeArea()
+            }
             .navigationTitle("Edit drink")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -90,12 +93,12 @@ struct EditDrinkLogSheet: View {
                             .padding(.horizontal, 14)
                             .frame(minWidth: 88)
                             .background(
-                                RoundedRectangle(cornerRadius: 16, style: .continuous)
-                                    .fill(selected ? Color.accentColor.opacity(0.15) : Color(.secondarySystemGroupedBackground))
+                                RoundedRectangle(cornerRadius: WaterLogTheme.cornerRadiusMedium, style: .continuous)
+                                    .fill(selected ? WaterLogTheme.accent.opacity(0.15) : Color(.secondarySystemGroupedBackground))
                             )
                             .overlay(
-                                RoundedRectangle(cornerRadius: 16, style: .continuous)
-                                    .strokeBorder(selected ? Color.accentColor : Color.clear, lineWidth: 2)
+                                RoundedRectangle(cornerRadius: WaterLogTheme.cornerRadiusMedium, style: .continuous)
+                                    .strokeBorder(selected ? WaterLogTheme.accent : Color.clear, lineWidth: 2)
                             )
                         }
                         .buttonStyle(.plain)
@@ -111,32 +114,29 @@ struct EditDrinkLogSheet: View {
                 .font(.subheadline.weight(.semibold))
                 .foregroundStyle(.secondary)
 
-            VStack(alignment: .leading, spacing: 8) {
-                HStack(alignment: .firstTextBaseline) {
-                    Text("Amount")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                    Spacer()
-                    Text(VolumeFormatting.format(ml: volumeMl, unit: unit))
-                        .font(.title2.weight(.bold).monospacedDigit())
-                }
-                Slider(value: $volumeMl, in: volumeRange, step: sliderStep)
-                    .tint(Color.accentColor)
-                HStack {
-                    Text(VolumeFormatting.formatCompact(ml: volumeRange.lowerBound, unit: unit))
-                        .font(.caption2)
-                        .foregroundStyle(.tertiary)
-                    Spacer()
-                    Text(VolumeFormatting.formatCompact(ml: volumeRange.upperBound, unit: unit))
-                        .font(.caption2)
-                        .foregroundStyle(.tertiary)
+            WLSheetPanel {
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack(alignment: .firstTextBaseline) {
+                        Text("Amount")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                        Spacer()
+                        Text(VolumeFormatting.format(ml: volumeMl, unit: unit))
+                            .font(.title2.weight(.bold).monospacedDigit())
+                    }
+                    Slider(value: $volumeMl, in: volumeRange, step: sliderStep)
+                        .tint(WaterLogTheme.accent)
+                    HStack {
+                        Text(VolumeFormatting.formatCompact(ml: volumeRange.lowerBound, unit: unit))
+                            .font(.caption2)
+                            .foregroundStyle(.tertiary)
+                        Spacer()
+                        Text(VolumeFormatting.formatCompact(ml: volumeRange.upperBound, unit: unit))
+                            .font(.caption2)
+                            .foregroundStyle(.tertiary)
+                    }
                 }
             }
-            .padding()
-            .background(
-                RoundedRectangle(cornerRadius: 14, style: .continuous)
-                    .fill(Color(.secondarySystemGroupedBackground))
-            )
 
             Text("Quick picks")
                 .font(.caption.weight(.semibold))
@@ -152,8 +152,8 @@ struct EditDrinkLogSheet: View {
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 10)
                             .background(
-                                RoundedRectangle(cornerRadius: 12, style: .continuous)
-                                    .fill(selected ? Color.accentColor : Color(.secondarySystemGroupedBackground))
+                                RoundedRectangle(cornerRadius: WaterLogTheme.cornerRadiusSmall, style: .continuous)
+                                    .fill(selected ? WaterLogTheme.accent : Color(.secondarySystemGroupedBackground))
                             )
                             .foregroundStyle(selected ? Color.white : Color.primary)
                     }
@@ -172,10 +172,11 @@ struct EditDrinkLogSheet: View {
             Text("Time")
                 .font(.subheadline.weight(.semibold))
                 .foregroundStyle(.secondary)
-            DatePicker("Logged at", selection: $loggedAt, displayedComponents: [.date, .hourAndMinute])
-                .datePickerStyle(.compact)
-                .padding()
-                .background(RoundedRectangle(cornerRadius: 14, style: .continuous).fill(Color(.secondarySystemGroupedBackground)))
+            WLSheetPanel {
+                DatePicker("Logged at", selection: $loggedAt, displayedComponents: [.date, .hourAndMinute])
+                    .datePickerStyle(.compact)
+                    .tint(WaterLogTheme.accent)
+            }
         }
     }
 
