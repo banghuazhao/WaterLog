@@ -349,7 +349,9 @@ struct ReportView: View {
     private func export() {
         do {
             try reportViewModel.prepareExport()
-        } catch {}
+        } catch {
+            appModel.presentError(error)
+        }
     }
 }
 

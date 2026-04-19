@@ -199,13 +199,17 @@ struct EditDrinkLogSheet: View {
         do {
             try appModel.updateDrinkLog(next)
             dismiss()
-        } catch {}
+        } catch {
+            appModel.presentError(error)
+        }
     }
 
     private func deleteLog() {
         do {
             try appModel.deleteDrinkLog(log)
             dismiss()
-        } catch {}
+        } catch {
+            appModel.presentError(error)
+        }
     }
 }

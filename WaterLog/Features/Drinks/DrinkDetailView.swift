@@ -102,8 +102,12 @@ struct DrinkDetailView: View {
                     isEditing = true
                 }
                 Button(role: .destructive) {
-                    try? appModel.deleteDrinkType(currentType)
-                    dismiss()
+                    do {
+                        try appModel.deleteDrinkType(currentType)
+                        dismiss()
+                    } catch {
+                        appModel.presentError(error)
+                    }
                 } label: {
                     Text("Delete drink type")
                 }
@@ -138,8 +142,12 @@ struct DrinkDetailView: View {
                             next.name = editName.trimmingCharacters(in: .whitespacesAndNewlines)
                             next.iconName = editIcon
                             next.tintHex = editTint
-                            try? appModel.updateDrinkType(next)
-                            isEditing = false
+                            do {
+                                try appModel.updateDrinkType(next)
+                                isEditing = false
+                            } catch {
+                                appModel.presentError(error)
+                            }
                         }
                         .disabled(editName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                     }

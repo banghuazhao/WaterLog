@@ -43,6 +43,8 @@ struct AddDrinkTypeSheet: View {
     do {
       try appModel.addDrinkType(name: trimmed, iconName: iconName, tintHex: tintHex)
       dismiss()
-    } catch {}
+    } catch {
+      appModel.presentError(error)
+    }
   }
 }

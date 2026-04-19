@@ -11,6 +11,8 @@ final class HomeViewModel {
   let appModel: AppModel
   var selectedDate: Date = .now
   var isPresentingAddDrink = false
+  /// Shown from Home when there are no drink types yet.
+  var isPresentingAddDrinkType = false
   var editingLog: DrinkLog?
 
   init(appModel: AppModel) {

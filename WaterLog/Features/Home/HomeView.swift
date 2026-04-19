@@ -16,6 +16,29 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             List {
+                if appModel.drinkTypes.isEmpty {
+                    Section {
+                        ContentUnavailableView(
+                            "Create a drink first",
+                            systemImage: "cup.and.saucer",
+                            description: Text("Add a drink type (for example water or tea), then you can log servings here.")
+                        )
+                        .frame(minHeight: 120)
+                        .listRowBackground(Color.clear)
+                        Button {
+                            homeViewModel.isPresentingAddDrinkType = true
+                        } label: {
+                            Text("Create drink type")
+                                .font(.headline)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 12)
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .tint(WaterLogTheme.accent)
+                        .listRowBackground(Color.clear)
+                    }
+                }
+
                 Section {
                     progressCard
                         .listRowInsets(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
@@ -23,7 +46,7 @@ struct HomeView: View {
                         .listRowSeparator(.hidden)
                 }
 
-                if logs.isEmpty {
+                if logs.isEmpty, !appModel.drinkTypes.isEmpty {
                     Section {
                         ContentUnavailableView(
                             "No drinks yet",
@@ -33,7 +56,7 @@ struct HomeView: View {
                         .frame(minHeight: 160)
                         .listRowBackground(Color.clear)
                     }
-                } else {
+                } else if !logs.isEmpty {
                     Section {
                         ForEach(logs) { log in
                             logRowLabel(log)
@@ -43,7 +66,11 @@ struct HomeView: View {
                                 }
                                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                     Button(role: .destructive) {
-                                        try? appModel.deleteDrinkLog(log)
+                                        do {
+                                            try appModel.deleteDrinkLog(log)
+                                        } catch {
+                                            appModel.presentError(error)
+                                        }
                                     } label: {
                                         Label("Delete", systemImage: "trash")
                                     }
@@ -85,6 +112,7 @@ struct HomeView: View {
                                 .foregroundStyle(WaterLogTheme.accentMuted)
                         }
                         .buttonStyle(.borderless)
+                        .accessibilityLabel("Previous day")
                         DatePicker(
                             "",
                             selection: $homeViewModel.selectedDate,
@@ -92,6 +120,7 @@ struct HomeView: View {
                         )
                         .labelsHidden()
                         .datePickerStyle(.compact)
+                        .accessibilityLabel("Selected day")
                         Button {
                             homeViewModel.shiftDay(1)
                         } label: {
@@ -101,23 +130,31 @@ struct HomeView: View {
                                 .foregroundStyle(WaterLogTheme.accentMuted)
                         }
                         .buttonStyle(.borderless)
+                        .accessibilityLabel("Next day")
                     }
                     .frame(maxWidth: .infinity)
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        homeViewModel.isPresentingAddDrink = true
+                        if appModel.drinkTypes.isEmpty {
+                            homeViewModel.isPresentingAddDrinkType = true
+                        } else {
+                            homeViewModel.isPresentingAddDrink = true
+                        }
                     } label: {
                         Image(systemName: "plus.circle.fill")
                             .symbolRenderingMode(.hierarchical)
                             .font(.title3)
                             .foregroundStyle(WaterLogTheme.accent)
                     }
-                    .accessibilityLabel("Add drink")
+                    .accessibilityLabel(appModel.drinkTypes.isEmpty ? "Add drink type" : "Add drink")
                 }
             }
             .sheet(isPresented: $homeViewModel.isPresentingAddDrink) {
                 AddDrinkSheet(appModel: appModel, defaultDate: homeViewModel.selectedDate)
+            }
+            .sheet(isPresented: $homeViewModel.isPresentingAddDrinkType) {
+                AddDrinkTypeSheet(appModel: appModel)
             }
             .sheet(item: $homeViewModel.editingLog) { log in
                 EditDrinkLogSheet(log: log, appModel: appModel)
@@ -131,30 +168,43 @@ struct HomeView: View {
         let goal = appModel.appSettings.dailyGoalMl
         let progress = homeViewModel.progress(for: day)
         let unit = appModel.appSettings.unit
+        let goalLabel = goal > 0
+            ? "of \(VolumeFormatting.format(ml: goal, unit: unit))"
+            : "Set a daily goal in Settings"
 
         return VStack(spacing: 16) {
             ZStack {
                 Circle()
                     .stroke(Color.primary.opacity(0.08), lineWidth: 14)
-                Circle()
-                    .trim(from: 0, to: progress)
-                    .stroke(
-                        WaterLogTheme.progressRingGradient,
-                        style: StrokeStyle(lineWidth: 14, lineCap: .round)
-                    )
-                    .rotationEffect(.degrees(-90))
-                    .animation(.spring(duration: 0.55), value: progress)
+                if goal > 0 {
+                    Circle()
+                        .trim(from: 0, to: progress)
+                        .stroke(
+                            WaterLogTheme.progressRingGradient,
+                            style: StrokeStyle(lineWidth: 14, lineCap: .round)
+                        )
+                        .rotationEffect(.degrees(-90))
+                        .animation(.spring(duration: 0.55), value: progress)
+                }
                 VStack(spacing: 4) {
                     Text(VolumeFormatting.format(ml: total, unit: unit))
                         .font(.title2.weight(.bold))
                         .monospacedDigit()
-                    Text("of \(VolumeFormatting.format(ml: goal, unit: unit))")
+                    Text(goalLabel)
                         .font(.footnote)
                         .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
                 }
             }
             .frame(width: 160, height: 160)
             .padding(.top, 4)
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel("Daily hydration")
+            .accessibilityValue(
+                goal > 0
+                    ? "\(VolumeFormatting.format(ml: total, unit: unit)) of \(VolumeFormatting.format(ml: goal, unit: unit)) goal"
+                    : "\(VolumeFormatting.format(ml: total, unit: unit)) logged, no goal set"
+            )
 
             if Calendar.current.isDateInToday(day) {
                 Label("Stay topped up—small sips add up fast.", systemImage: "drop.fill")
@@ -212,5 +262,9 @@ struct HomeView: View {
                 .foregroundStyle(.tertiary)
         }
         .padding(.vertical, 6)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(
+            "\(type?.name ?? "Drink"), \(VolumeFormatting.format(ml: log.volumeMl, unit: unit)), \(log.loggedAt.formatted(date: .omitted, time: .shortened))"
+        )
     }
 }

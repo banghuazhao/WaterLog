@@ -55,6 +55,16 @@ enum WaterLogTheme {
 
 }
 
+// MARK: - Tab bar chrome
+
+extension View {
+  func waterLogTabBarStyle() -> some View {
+    self
+      .toolbarBackground(.ultraThinMaterial, for: .tabBar)
+      .toolbarBackground(.visible, for: .tabBar)
+  }
+}
+
 // MARK: - Reusable report / dashboard card
 
 struct WLReportCard<Content: View>: View {

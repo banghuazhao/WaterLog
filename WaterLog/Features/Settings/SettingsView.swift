@@ -96,11 +96,21 @@ struct SettingsView: View {
                     Text("Reminders")
                 }
 
+                Section("Privacy & data") {
+                    Text(
+                        "WaterLog keeps your drink log and settings in a database on this device. Nothing is sent to us for analytics or backup. CSV export shares only what you choose in the share sheet."
+                    )
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    Text(
+                        "Notifications are used only if you turn on reminders; you can disable them anytime here or in Settings › WaterLog."
+                    )
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                }
+
                 Section("About") {
                     LabeledContent("Version", value: "1.0")
-                    Text("WaterLog stores everything locally")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
                 }
             }
             .scrollContentBackground(.hidden)
@@ -147,6 +157,8 @@ struct SettingsView: View {
         next.quietHoursEndMinutes = quietEndHour * 60
         do {
             try appModel.updateSettings(next)
-        } catch {}
+        } catch {
+            appModel.presentError(error)
+        }
     }
 }

@@ -25,6 +25,9 @@ final class AppModel {
   @ObservationIgnored
   @Dependency(\.defaultDatabase) private var database
 
+  /// Last error to show in an alert; cleared by the UI after dismissal.
+  var userFacingError: String?
+
   var appSettings: AppSettings {
     appSettingsRow
       ?? AppSettings(
@@ -40,6 +43,14 @@ final class AppModel {
 
   func drinkType(id: DrinkType.ID) -> DrinkType? {
     drinkTypes.first { $0.id == id }
+  }
+
+  func presentError(_ error: Error) {
+    userFacingError = error.localizedDescription
+  }
+
+  func clearUserFacingError() {
+    userFacingError = nil
   }
 
   func logs(on day: Date, calendar: Calendar = .current) -> [DrinkLog] {

@@ -41,5 +41,6 @@ struct MainTabView: View {
         }
     }
     .tint(WaterLogTheme.accent)
+    .waterLogTabBarStyle()
   }
 }

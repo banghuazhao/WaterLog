@@ -185,7 +185,7 @@ struct AddDrinkSheet: View {
             try appModel.addDrinkLog(drinkTypeID: selectedTypeID, volumeMl: volumeMl, loggedAt: loggedAt)
             dismiss()
         } catch {
-            // Surface error in production; for now ignore
+            appModel.presentError(error)
         }
     }
 }
