@@ -2,6 +2,15 @@
 
 A SwiftUI hydration tracker for iPhone and iPad. Log drinks by type and volume, follow a daily goal, review trends in charts, and keep everything **on device**—no account required.
 
+## App Store
+
+WaterLog is now live on the App Store:  
+[WaterLog - Track Drinks](https://apps.apple.com/us/app/waterlog-track-drinks/id6762547284)
+
+## Screenshots
+
+![WaterLog screenshot](Screenshots/screenshot.png)
+
 ## Features
 
 - **Home** — Day-by-day timeline, progress toward your goal, add and edit logs, swipe to delete  
