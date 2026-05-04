@@ -8,15 +8,29 @@
 
 /* Begin PBXBuildFile section */
 		995F42582F94C26400F98A4F /* SQLiteData in Frameworks */ = {isa = PBXBuildFile; productRef = 995F42572F94C26400F98A4F /* SQLiteData */; };
+		99883FE12F9ACB7F00984283 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 99883FE02F9ACB7F00984283 /* GoogleMobileAds */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		995F42412F94C1D500F98A4F /* WaterLog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WaterLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		99883FE32F9ACCD100984283 /* Exceptions for "WaterLog" folder in "WaterLog" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 995F42402F94C1D500F98A4F /* WaterLog */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		995F42432F94C1D500F98A4F /* WaterLog */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				99883FE32F9ACCD100984283 /* Exceptions for "WaterLog" folder in "WaterLog" target */,
+			);
 			path = WaterLog;
 			sourceTree = "<group>";
 		};
@@ -27,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				99883FE12F9ACB7F00984283 /* GoogleMobileAds in Frameworks */,
 				995F42582F94C26400F98A4F /* SQLiteData in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -71,6 +86,7 @@
 			name = WaterLog;
 			packageProductDependencies = (
 				995F42572F94C26400F98A4F /* SQLiteData */,
+				99883FE02F9ACB7F00984283 /* GoogleMobileAds */,
 			);
 			productName = WaterLog;
 			productReference = 995F42412F94C1D500F98A4F /* WaterLog.app */;
@@ -102,6 +118,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				995F42562F94C26400F98A4F /* XCRemoteSwiftPackageReference "sqlite-data" */,
+				99883FDF2F9ACB7F00984283 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 995F42422F94C1D500F98A4F /* Products */;
@@ -257,14 +274,17 @@
 		};
 		995F424D2F94C1D700F98A4F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 995F42432F94C1D500F98A4F /* WaterLog */;
+			baseConfigurationReferenceRelativePath = Config/Debug.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 1.2;
 				DEVELOPMENT_TEAM = E6968P466E;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WaterLog/Info.plist;
 				INFOPLIST_KEY_NSUserNotificationsUsageDescription = "WaterLog schedules local reminders to help you reach your daily hydration goal.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -276,7 +296,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Banghua-Zhao.WaterLog";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -291,14 +311,17 @@
 		};
 		995F424E2F94C1D700F98A4F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 995F42432F94C1D500F98A4F /* WaterLog */;
+			baseConfigurationReferenceRelativePath = Config/Release.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 1.2;
 				DEVELOPMENT_TEAM = E6968P466E;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WaterLog/Info.plist;
 				INFOPLIST_KEY_NSUserNotificationsUsageDescription = "WaterLog schedules local reminders to help you reach your daily hydration goal.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -310,7 +333,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Banghua-Zhao.WaterLog";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -355,6 +378,14 @@
 				minimumVersion = 1.6.1;
 			};
 		};
+		99883FDF2F9ACB7F00984283 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 13.2.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -362,6 +393,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 995F42562F94C26400F98A4F /* XCRemoteSwiftPackageReference "sqlite-data" */;
 			productName = SQLiteData;
+		};
+		99883FE02F9ACB7F00984283 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 99883FDF2F9ACB7F00984283 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

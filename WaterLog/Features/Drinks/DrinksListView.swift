@@ -43,6 +43,13 @@ struct DrinksListView: View {
                 } footer: {
                     Text("Customize icons and colors. Deleting a drink removes its history.")
                 }
+
+                Section {
+                    WaterLogListEmbeddedBannerView(maxInlineBannerHeight: 72)
+                        .frame(maxWidth: .infinity)
+                        .listRowInsets(EdgeInsets(top: 12, leading: 0, bottom: 20, trailing: 0))
+                        .listRowBackground(Color.clear)
+                }
             }
             .listStyle(.insetGrouped)
             .listSectionSpacing(WaterLogTheme.contentStackSpacing)

@@ -12,6 +12,7 @@ struct WaterLogApp: App {
   @State private var appModel: AppModel
 
   init() {
+    AdMobBootstrap.startIfNeeded()
     prepareDependencies {
       $0.defaultDatabase = try! AppDatabase.makeDatabaseQueue()
     }

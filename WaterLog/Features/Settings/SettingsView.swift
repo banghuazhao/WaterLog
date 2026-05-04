@@ -112,6 +112,13 @@ struct SettingsView: View {
                 Section("About") {
                     LabeledContent("Version", value: "1.0")
                 }
+
+                Section {
+                    WaterLogListEmbeddedBannerView()
+                        .frame(maxWidth: .infinity)
+                        .listRowInsets(EdgeInsets(top: 12, leading: 0, bottom: 20, trailing: 0))
+                        .listRowBackground(Color.clear)
+                }
             }
             .scrollContentBackground(.hidden)
             .background {
